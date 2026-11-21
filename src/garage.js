@@ -101,6 +101,7 @@ export class Garage {
     this.camera.setViewOffset(width,height,-width*(this.mobile?0:.12),-height*(this.mobile?.10:-.05),width,height);
     this.camera.updateProjectionMatrix();
     if(this.car)this.preset(this.mode,true);
+    this.frame(performance.now(),true);
   }
   events(){
     const canvas=this.renderer.domElement,pointers=new Map();let lastPinch=0;
@@ -140,6 +141,7 @@ export class Garage {
       // Thumbnail uses the actual loaded vehicle with the same lighting.
       this.container.dataset.vehicle=c.id;
       this.container.dataset.loaded='true';
+      this.frame(performance.now(),true);
     }catch(error){
       if(sequence!==this.sequence)return;
       this.container.dataset.loaded='false';
@@ -284,10 +286,10 @@ export class Garage {
     Object.assign(this.target,next);this.lastInteraction=performance.now();
     if(this.reduced||resize){this.angle=next.angle;this.distance=next.distance;this.elevation=next.elevation;this.lookY=next.lookY;}
   }
-  frame(t){
-    if(!this.active)return;
+  frame(t,force=false){
+    if(!this.active&&!force)return;
     // Cap mobile rendering at 30fps; avoid unnecessary GPU work in background tabs.
-    if(this.mobile&&t-this.lastFrame<31)return;
+    if(!force&&this.mobile&&t-this.lastFrame<31)return;
     const dt=Math.min((t-this.lastFrame)/1000,.05)||.016;this.lastFrame=t;
     const factor=this.reduced?1:1-Math.exp(-dt*6);
     if(!this.reduced&&this.mode==='orbit'&&!this.interacting&&t-(this.lastInteraction||0)>6000)this.target.angle+=dt*.045;
