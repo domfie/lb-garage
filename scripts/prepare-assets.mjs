@@ -4,6 +4,7 @@ import { execFileSync } from 'node:child_process';
 import { NodeIO } from '@gltf-transform/core';
 import { ALL_EXTENSIONS } from '@gltf-transform/extensions';
 import { dedup, flatten, join, weld, simplify, meshopt, getBounds, mergeDocuments, unpartition, prune } from '@gltf-transform/functions';
+import { makeRs6Cabrio } from './rs6-cabrio.mjs';
 import { MeshoptDecoder, MeshoptEncoder, MeshoptSimplifier } from 'meshoptimizer';
 const cache = '.asset-work';
 const output = 'public/assets/models';
@@ -93,6 +94,8 @@ for (const material of rs6.getRoot().listMaterials()) {
   else if (name === 'reverselamp') material.setBaseColorFactor([.8, .85, .9, 1]);
   else material.setBaseColorFactor([.025, .03, .035, 1]).setRoughnessFactor(name.includes('interior') ? .9 : .45).setDoubleSided(name.includes(':2s'));
 }
+makeRs6Cabrio(rs6);
+await rs6.transform(weld());
 const wheels = await io.read(`${cache}/rs6-wheel.glb`);
 // Reduce wheel geometry before instancing it four times.
 await wheels.transform(weld(), simplify({ simplifier: MeshoptSimplifier, ratio: .55, error: .0015 }));

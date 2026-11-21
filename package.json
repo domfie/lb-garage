@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 127.0.0.1",
-    "build": "vite build && node scripts/stage-pages.mjs",
+    "build": "node scripts/build-badges.mjs && vite build && node scripts/stage-pages.mjs",
     "preview": "vite preview --host 127.0.0.1",
     "models": "node scripts/prepare-assets.mjs",
     "check": "node scripts/check-assets.mjs && node scripts/check-suspension.mjs"

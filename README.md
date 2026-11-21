@@ -23,11 +23,11 @@ npm run preview
 
 ## Fahrzeuge & Rechte
 
-Audi A1 Clubsport Quattro, Audi A3 3.2 Quattro, Audi Q7, Audi RS6 Avant, Mercedes-Benz Sprinter Verkehrssicherung und Veranstaltungstechnik. Die echten Fahrzeugdateien werden mit dem Projekt ausgeliefert. Kein manueller Import, kein CDN, keine Registrierung notwendig.
+Audi A1 Clubsport Quattro, Audi A3 3.2 Quattro, Audi Q7, Audi RS6 Cabrio-Umbau, Mercedes-Benz Sprinter Verkehrssicherung und Veranstaltungstechnik. Die echten Fahrzeugdateien werden mit dem Projekt ausgeliefert. Kein manueller Import, kein CDN, keine Registrierung notwendig.
 
 [Urheber, Quellen, Lizenztexte und Änderungen](docs/ASSET-LICENSES.md) · [Modellinventar](docs/model-inventory.json)
 
-Alle Modelle sind als GLB mit Meshopt komprimiert, auf Metermaß normalisiert und enthalten ihre Texturen. Die fünf Dateien umfassen zusammen etwa 3,54 MiB; Sprinter-Varianten verwenden dieselbe Basisdatei und eigene Szenenaufbauten. Modelle werden erst bei Auswahl geladen und anschließend zwischengespeichert. Mobile Geräte rendern mit maximal 30 Bildern pro Sekunde und begrenzter Pixeldichte; Hintergrundtabs pausieren die 3D-Darstellung. Reduzierte Bewegung wird respektiert.
+Alle Modelle sind als GLB mit Meshopt komprimiert, auf Metermaß normalisiert und enthalten ihre Texturen. Die fünf Dateien umfassen zusammen etwa 3,43 MiB; Sprinter-Varianten verwenden dieselbe Basisdatei und eigene Szenenaufbauten. Modelle werden erst bei Auswahl geladen und anschließend zwischengespeichert. Mobile Geräte rendern mit maximal 30 Bildern pro Sekunde und begrenzter Pixeldichte; Hintergrundtabs pausieren die 3D-Darstellung. Reduzierte Bewegung wird respektiert.
 
 Die reproduzierbare Aufbereitung lädt Originale aus festgehaltenen Revisionen, normalisiert sie und prüft die Ergebnisse:
 
@@ -58,3 +58,5 @@ Die Oberfläche verwendet das offizielle Rautensignet, Poppins und die Navy-/Bla
 Beim Wechsel wird das Fahrzeug etwa 38 cm über der Plattform eingesetzt. Nach dem Bodenkontakt federt die Karosserie relativ zu den Rädern ein und schwingt gedämpft aus. Die Reifen durchdringen dabei die Plattform nicht. Die Federung ist eine visuelle Inszenierung; die Radbereiche werden im Vertexshader ausgespart. Bei aktivierter Einstellung „Bewegung reduzieren“ entfällt die Animation.
 
 Alle Fahrzeuge sind in Firmenblau (`#135379`) lackiert und tragen vorne und hinten das gestaltete Kennzeichen „M- LB XXXX“. An der Garagenwand steht das offizielle Rautensignet auf einer hellen Logotafel.
+
+Die Fahrzeugauswahl blendet für jedes Modell einen eigenen Chrom-Schriftzug ein, beim RS6 mit rotem RS-Feld. Der RS6 wird als offener Cabrio-Umbau des lizenzierten Avant-Modells mit erhaltenem Cockpit, Windschutzscheibe und neuem Heckabschluss ausgeliefert. Die Aufbereitung bleibt mit `npm run models` reproduzierbar.
