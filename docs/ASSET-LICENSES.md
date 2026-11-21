@@ -37,3 +37,11 @@ Modelle mit bloßem „Free Download“ ohne nachgewiesene Weitergaberechte, per
 ## Lizenzbelege
 
 [`licenses/a1-source.json`](licenses/a1-source.json), [`licenses/a3-source.json`](licenses/a3-source.json) und [`licenses/rs6-source.json`](licenses/rs6-source.json) enthalten die separat abgerufenen Original-Lizenzmetadaten. Die `.xoma`-Dateien sind die unveränderten OpenX-Metadaten einschließlich Copyrightangaben. Vollständige Lizenztexte sind in diesem Ordner enthalten.
+
+## LB Corporate Design
+
+Die Gestaltung folgt auf Wunsch des Projektinhabers dem öffentlich sichtbaren CI der [offiziellen LB Firmengruppe](https://www.lb-firmengruppe.de/). Deren Stylesheet verwendet `#0d1f37` / `#1e4268` (Navy-Verlauf), `#135379` (Blau), `#ff6148` (Koralle) und `#d4f357` (Signalgelb). Diese Farben wurden für Oberfläche und Garagenbeleuchtung übernommen.
+
+- [Offizielles Rautenzeichen](https://www.lb-firmengruppe.de/wp-content/uploads/2026/06/logo.svg), lokal `public/assets/brand/lb-firmengruppe.svg`; zur Darstellung in Markenblau eingefärbt. Das Zeichen und die LB-Marken gehören der Firmengruppe. Keine freie Weiterverwendungslizenz wird behauptet; die Einbindung dient ausschließlich der ausdrücklich gewünschten LB-Markenpräsentation.
+- Poppins Regular, SemiBold und Bold: lokal bereitgestellte Webfonts aus der offiziellen LB-Website, lizenziert unter der [SIL Open Font License](licenses/Poppins-OFL.txt). Urheber: Indian Type Foundry / Poppins Project Authors. [Originales Schriftprojekt](https://github.com/itfoundry/Poppins).
+- Die Sprinter-Beschriftungen und das Garagenlogo werden für die LB-Varianten aus Text und dem Rautensignet gezeichnet.

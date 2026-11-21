@@ -3,15 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#080b0b" />
+  <meta name="theme-color" content="#0d1f37" />
   <meta name="description" content="Der LB Motorpool. Sechs Fahrzeuge, eine Garage. Entdecke die Flotte in einer interaktiven 3D-Garage mit eigenem Soundtrack." />
   <title>LB Motorpool — After Hours Garage</title>
   <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <script type="module" crossorigin src="/lb-garage/assets/index-aWqtj7q9.js"></script>
+  <link rel="stylesheet" crossorigin href="/lb-garage/assets/index-CfIdgXiM.css">
 </head>
 <body>
   <div class="app">
     <header class="header">
-      <a class="brand" href="./" aria-label="LB Motorpool Startseite"><span class="monogram">LB<span>.</span></span><span class="brand-type">MOTORPOOL<small>THE AFTER HOURS COLLECTION</small></span></a>
+      <a class="brand" href="./" aria-label="LB Motorpool Startseite"><span class="brand-symbol"><img src="./assets/brand/lb-firmengruppe.svg" alt="" width="28" height="49"></span><span class="brand-type">LB FIRMENGRUPPE<small>MOTORPOOL / AFTER HOURS</small></span></a>
       <div class="header-center"><span class="status-led"></span> GARAGE ONLINE <span class="divider">/</span> EST. 2026</div>
       <button class="text-button" id="bookings">Meine Buchungen <span class="booking-count" id="bookingCount">0</span></button>
     </header>
@@ -21,11 +23,11 @@
       <div class="vignette"></div>
       <section class="vehicle-info" aria-live="polite">
         <p class="eyebrow"><span id="category">CITY RUNNER</span><span class="info-rule"></span><span id="carNumber">01 / 06</span></p>
-        <h1><span id="make">AUDI</span><strong id="modelName">A1<span>SPORTBACK</span></strong></h1>
+        <h1><span id="make">AUDI</span><strong id="modelName">A1<span>CLUBSPORT QUATTRO</span></strong></h1>
         <p class="vehicle-description" id="description"></p>
         <div class="specs"><div><small>KAROSSERIE</small><b id="bodyType">Kompakt</b></div><div><small>ZUGEORDNET ZU</small><b>LB <span id="company">SYSTEMS</span></b></div></div>
       </section>
-      <aside class="garage-meta"><span>LB PRIVATE GARAGE</span><b>AFTER<br>HOURS<span>™</span></b><span class="meta-coordinates">48°53′ N &nbsp; 09°12′ E</span><div class="bay">BAY <strong id="bay">01</strong><span>VEHICLE COLLECTION</span></div></aside>
+      <aside class="garage-meta"><span>LB PRIVATE GARAGE</span><b>AFTER<br>HOURS<span>™</span></b><span class="meta-coordinates">MÜNCHEN &nbsp; / &nbsp; DE</span><div class="bay">BAY <strong id="bay">01</strong><span>VEHICLE COLLECTION</span></div></aside>
       <div class="load-status" id="loadStatus" role="status"><span class="spinner"></span> Garage wird vorbereitet …</div>
       <div class="view-tools"><div class="interaction-hint"><span>↔</span> ZIEHEN ZUM DREHEN <i>·</i> PINCH ZUM ZOOMEN</div><div class="view-buttons" role="group" aria-label="Kameraperspektive"><button id="viewOrbit" class="active" aria-pressed="true">360°</button><button id="viewFront" aria-pressed="false">Front</button><button id="viewSide" aria-pressed="false">Seite</button><button id="viewDetail" aria-pressed="false">Detail</button></div></div>
       <div class="webgl-error" id="webglError" hidden><b>Die Garage braucht WebGL 2.</b><p>Aktiviere die Hardwarebeschleunigung oder öffne die Garage in einem aktuellen Browser.</p><button id="reload">Erneut versuchen</button></div>
@@ -42,6 +44,5 @@
 
   <dialog id="bookingDialog" class="modal"><form id="bookingForm"><div class="modal-heading"><span class="eyebrow">LB // RESERVIERUNG</span><button type="button" class="close" aria-label="Dialog schließen">×</button></div><h2 id="bookingTitle">Audi A1</h2><p class="muted">Plane deinen nächsten Einsatz. Buchungen werden lokal in diesem Browser gespeichert.</p><label for="driver">Dein Name</label><input id="driver" required maxlength="100" autocomplete="name" placeholder="Vor- und Nachname"><div class="date-fields"><div><label for="start">Abholung</label><input id="start" required type="datetime-local"></div><div><label for="end">Rückgabe</label><input id="end" required type="datetime-local"></div></div><button class="primary" type="submit">Reservierung speichern <span>＋</span></button><p id="bookingMessage" role="status"></p><h3>Reservierungen <span id="recordsLabel"></span></h3><div id="records"></div></form></dialog>
   <dialog id="creditsDialog" class="modal credits"><div class="modal-heading"><span class="eyebrow">THE PEOPLE BEHIND THE GARAGE</span><button class="close" aria-label="Dialog schließen">×</button></div><h2>Credits & Quellen</h2><div id="modelCredits"></div><h3>Soundtrack</h3><p>„LB I Do – The LB Guarantee“ — Treblo.<br>Vom Projektinhaber für diese Garage bereitgestellt. Keine freie Weiterverwendungslizenz.</p><h3>Technik & Gestaltung</h3><p>Three.js (MIT), Vite (MIT). Eigene Garage, Beleuchtung, Lackierungen und Beschriftungen. Inspiriert von der Tuningkultur der 2000er. Kein offizielles Need-for-Speed-, Audi- oder Mercedes-Benz-Angebot.</p><a href="https://github.com/domfie/lb-garage/blob/main/docs/ASSET-LICENSES.md" target="_blank" rel="noopener">Vollständige Quellen- und Lizenzdokumentation</a></dialog>
-  <script type="module" src="/src/main.js"></script>
 </body>
 </html>

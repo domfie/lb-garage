@@ -3,6 +3,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { Reflector } from 'three/addons/objects/Reflector.js';
+import { suspensionAt } from './suspension.js';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 
 const BASE=import.meta.env.BASE_URL;
@@ -12,7 +13,7 @@ const basic=color=>new T.MeshBasicMaterial({color});
 const v3=(x,y,z)=>new T.Vector3(x,y,z);
 function box(parent,x,y,z,w,h,d,material){const mesh=new T.Mesh(new T.BoxGeometry(w,h,d),material);mesh.position.set(x,y,z);parent.add(mesh);return mesh;}
 function canvasTexture(width,height,paint){const c=document.createElement('canvas');c.width=width;c.height=height;paint(c.getContext('2d'),width,height);const t=new T.CanvasTexture(c);t.colorSpace=T.SRGBColorSpace;t.anisotropy=4;return t;}
-function textTexture(text,fg='#d5ff46',bg=null){return canvasTexture(1024,256,(ctx,w,h)=>{if(bg){ctx.fillStyle=bg;ctx.fillRect(0,0,w,h);}ctx.fillStyle=fg;ctx.font='italic 900 175px Arial';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(text,w/2,h*.52);});}
+function textTexture(text,fg='#d5ff46',bg=null){return canvasTexture(1024,256,(ctx,w,h)=>{if(bg){ctx.fillStyle=bg;ctx.fillRect(0,0,w,h);}ctx.fillStyle=fg;ctx.font='700 96px Poppins';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(text,w/2,h*.52);});}
 
 export class Garage {
   constructor(container,onStatus){
@@ -20,11 +21,13 @@ export class Garage {
     this.mobile=innerWidth<701;
     this.renderer=new T.WebGLRenderer({antialias:!this.mobile,powerPreference:'high-performance'});
     this.renderer.setPixelRatio(Math.min(devicePixelRatio,this.mobile?1.5:1.8));
+    this.shaderErrors=[];
+    this.renderer.debug.onShaderError=(gl,program,vertex,fragment)=>{const error=gl.getProgramInfoLog(program)||gl.getShaderInfoLog(vertex)||gl.getShaderInfoLog(fragment)||'Unknown shader error';this.shaderErrors.push(error);console.error('Garage shader',error);};
     this.renderer.outputColorSpace=T.SRGBColorSpace;
     this.renderer.toneMapping=T.ACESFilmicToneMapping;
     this.renderer.toneMappingExposure=1.25;
     container.append(this.renderer.domElement);
-    this.scene=new T.Scene();this.scene.background=new T.Color('#101711');this.scene.fog=new T.Fog('#101711',17,45);
+    this.scene=new T.Scene();this.scene.background=new T.Color('#0d1929');this.scene.fog=new T.Fog('#0d1929',17,45);
     this.camera=new T.PerspectiveCamera(35,1,.1,100);
     this.angle=-.65;this.elevation=.20;this.distance=9.8;
     this.target={angle:-.65,elevation:.20,distance:9.8,lookY:.75};this.lookY=.75;
@@ -42,21 +45,21 @@ export class Garage {
   }
   buildRoom(){
     const s=this.scene;
-    s.add(new T.HemisphereLight(0xc5dfc3,0x232b22,1.1));
-    const key=new T.DirectionalLight(0xf6fff0,3.2);key.position.set(-4,7,5);s.add(key);
+    s.add(new T.HemisphereLight(0xc4d8ed,0x162c47,1.1));
+    const key=new T.DirectionalLight(0xf3f7ff,3.2);key.position.set(-4,7,5);s.add(key);
     const rim=new T.DirectionalLight(0xaad2dd,2);rim.position.set(4,4,-5);s.add(rim);
-    const limeLight=new T.PointLight(0xb5ff43,38,14,2);limeLight.position.set(-4,2,-2);s.add(limeLight);
-    const blueLight=new T.PointLight(0x5196e9,26,14,2);blueLight.position.set(5,2,-3);s.add(blueLight);
+    const limeLight=new T.PointLight(0x348cc0,38,14,2);limeLight.position.set(-4,2,-2);s.add(limeLight);
+    const blueLight=new T.PointLight(0xff6148,26,14,2);blueLight.position.set(5,2,-3);s.add(blueLight);
     // A lower resolution planar reflection retains the wet-floor look on phones.
-    this.reflector=new Reflector(new T.PlaneGeometry(55,55),{color:0x26301f,textureWidth:this.mobile?256:768,textureHeight:this.mobile?256:768,multisample:0,clipBias:.003});
+    this.reflector=new Reflector(new T.PlaneGeometry(55,55),{color:0x1d2d40,textureWidth:this.mobile?256:768,textureHeight:this.mobile?256:768,multisample:0,clipBias:.003});
     this.reflector.rotation.x=-Math.PI/2;this.reflector.position.y=-.022;s.add(this.reflector);
-    const concrete=canvasTexture(256,256,(ctx,w,h)=>{let seed=17;const rand=()=>{seed=(seed*16807)%2147483647;return seed/2147483647;};const image=ctx.createImageData(w,h);for(let i=0;i<image.data.length;i+=4){const c=24+rand()*15;image.data[i]=c*.89;image.data[i+1]=c;image.data[i+2]=c*.84;image.data[i+3]=255;}ctx.putImageData(image,0,0);});concrete.wrapS=concrete.wrapT=T.RepeatWrapping;concrete.repeat.set(35,35);
+    const concrete=canvasTexture(256,256,(ctx,w,h)=>{let seed=17;const rand=()=>{seed=(seed*16807)%2147483647;return seed/2147483647;};const image=ctx.createImageData(w,h);for(let i=0;i<image.data.length;i+=4){const c=24+rand()*15;image.data[i]=c*.78;image.data[i+1]=c*.92;image.data[i+2]=c;image.data[i+3]=255;}ctx.putImageData(image,0,0);});concrete.wrapS=concrete.wrapT=T.RepeatWrapping;concrete.repeat.set(35,35);
     const floorMat=new T.MeshStandardMaterial({map:concrete,roughness:.82,metalness:.08,transparent:true,opacity:.91,depthWrite:false});
     const floor=new T.Mesh(new T.PlaneGeometry(55,55),floorMat);floor.rotation.x=-Math.PI/2;floor.position.y=-.012;s.add(floor);
     // Soft contact shadow is cheap and stable while the camera moves.
     const shadowTexture=canvasTexture(128,128,(ctx,w,h)=>{const grad=ctx.createRadialGradient(w/2,h/2,12,w/2,h/2,w/2);grad.addColorStop(0,'rgba(0,0,0,.88)');grad.addColorStop(.5,'rgba(0,0,0,.62)');grad.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=grad;ctx.fillRect(0,0,w,h);});
     this.shadow=new T.Mesh(new T.PlaneGeometry(1,1),new T.MeshBasicMaterial({map:shadowTexture,transparent:true,depthWrite:false,opacity:.85}));this.shadow.rotation.x=-Math.PI/2;this.shadow.position.y=.002;s.add(this.shadow);
-    const concreteMat=standard('#283027',.1,.9),dark=standard('#161f18',.2,.7),rail=standard('#3e4938',.5,.5),neon=emissive('#b9ee50',3),cool=emissive('#b0d4c4',2);
+    const concreteMat=standard('#263448',.1,.9),dark=standard('#111f33',.2,.7),rail=standard('#3c5067',.5,.5),neon=emissive('#6db5e4',3),cool=emissive('#d5e5f8',2);
     box(s,0,3.6,-9,32,7.3,.35,dark);
     for(const x of [-11,-5.5,5.5,11]){
       box(s,x,3.3,-6.5,.45,6.6,.55,concreteMat);box(s,x,1.05,-6.18,.48,.12,.035,neon);
@@ -68,17 +71,19 @@ export class Garage {
     }
     // Roller shutters, cable conduits and a neon frame give the room depth.
     for(const x of [-8,0,8]){
-      box(s,x,2.7,-8.75,6.6,5.1,.1,standard('#222d24',.5,.6));
+      box(s,x,2.7,-8.75,6.6,5.1,.1,standard('#1b2e45',.5,.6));
       for(let i=0;i<24;i++)box(s,x,.35+i*.21,-8.64,6.5,.018,.025,rail);
       box(s,x-3.38,2.7,-8.6,.08,5.3,.08,rail);box(s,x+3.38,2.7,-8.6,.08,5.3,.08,rail);
     }
     box(s,-3.8,2.6,-8.42,.055,4.6,.09,neon);box(s,3.8,2.6,-8.42,.055,4.6,.09,neon);box(s,0,4.9,-8.42,7.65,.055,.09,neon);
-    const word=new T.Mesh(new T.PlaneGeometry(5.1,1.27),new T.MeshBasicMaterial({map:textTexture('LB. MOTORPOOL','#7e916b'),transparent:true,depthWrite:false}));word.position.set(0,3.8,-8.3);s.add(word);
-    const stripeMat=basic('#7b8941');
+    const word=new T.Mesh(new T.PlaneGeometry(5.1,1.27),new T.MeshBasicMaterial({map:textTexture('LB FIRMENGRUPPE','#86a9c3'),transparent:true,depthWrite:false}));word.position.set(0,3.8,-8.3);s.add(word);
+    const platform=new T.Mesh(new T.CylinderGeometry(3.72,3.76,.06,80),new T.MeshStandardMaterial({color:'#162c47',metalness:.65,roughness:.4,transparent:true,opacity:.3}));platform.position.y=-.035;s.add(platform);
+    this.platformRing=new T.Mesh(new T.TorusGeometry(3.74,.012,5,100),emissive('#135379',1.3));this.platformRing.rotation.x=-Math.PI/2;this.platformRing.position.y=.002;s.add(this.platformRing);
+    const stripeMat=basic('#4d7898');
     for(const x of [-3.1,3.1])box(s,x,.005,-.2,.035,.009,7.4,stripeMat);
     for(const z of [-3.9,3.5]){box(s,-2.6,.005,z,1,.009,.035,stripeMat);box(s,2.6,.005,z,1,.009,.035,stripeMat);}
     // Floor service markings and pooled neon light are original procedural textures.
-    const pool=canvasTexture(128,128,(ctx,w,h)=>{const g=ctx.createRadialGradient(w/2,h/2,0,w/2,h/2,w/2);g.addColorStop(0,'rgba(167,221,63,.13)');g.addColorStop(1,'rgba(167,221,63,0)');ctx.fillStyle=g;ctx.fillRect(0,0,w,h);});
+    const pool=canvasTexture(128,128,(ctx,w,h)=>{const g=ctx.createRadialGradient(w/2,h/2,0,w/2,h/2,w/2);g.addColorStop(0,'rgba(75,156,210,.13)');g.addColorStop(1,'rgba(75,156,210,0)');ctx.fillStyle=g;ctx.fillRect(0,0,w,h);});
     const glow=new T.Mesh(new T.PlaneGeometry(11,9),new T.MeshBasicMaterial({map:pool,transparent:true,depthWrite:false,blending:T.AdditiveBlending}));glow.rotation.x=-Math.PI/2;glow.position.set(-2,.01,-2);s.add(glow);
   }
   resize(){
@@ -116,11 +121,13 @@ export class Garage {
         this.styleMaterials(model,c);
         if(c.id==='safety'||c.id==='event')this.sprinterKit(model,c);
         if(c.id==='rs6')this.curbDamage(model);
+        this.installSuspension(model,c);
         model.name=c.id;this.cache.set(c.id,model);model.visible=false;this.scene.add(model);
       }
       if(sequence!==this.sequence)return;
       this.current=this.cache.get(c.id);this.current.visible=true;
-      this.current.position.y=this.reduced?0:-.035;
+      this.current.userData.dropStart=performance.now();
+      this.current.position.y=this.reduced?0:.38;
       this.shadow.scale.set(c.width*1.4,c.length*1.12,1);
       this.preset('orbit');this.onStatus('',false,{id:c.id,meshes:this.current.children.length});
       // Thumbnail uses the actual loaded vehicle with the same lighting.
@@ -131,6 +138,33 @@ export class Garage {
       this.container.dataset.loaded='false';
       this.onStatus(`${c.short} konnte nicht geladen werden. Fahrzeug erneut auswählen.`,true);console.error('Vehicle load failed',c.id,error);
     }
+  }
+  installSuspension(model,c){
+    const uniforms={lbCompression:{value:0},lbDrop:{value:0}};
+    const isVan=c.kind==='safety'||c.kind==='event';
+    let front=c.length*.31,rear=-c.length*.30,radius=isVan?.374:c.id==='q7'?.394:.325;
+    if(isVan){front=2.0419;rear=-1.6232;}
+    if(c.id==='q7'){front=1.5542;rear=-1.4384;}
+    if(c.id==='rs6'){const f=new T.Box3().setFromObject(model.getObjectByName('wheel_front_right')).getCenter(new T.Vector3()),r=new T.Box3().setFromObject(model.getObjectByName('wheel_rear_right')).getCenter(new T.Vector3());front=f.z;rear=r.z;radius=f.y;}
+    const visited=new Set();
+    model.traverse(n=>{if(!n.isMesh)return;for(const material of Array.isArray(n.material)?n.material:[n.material]){
+      if(visited.has(material))continue;visited.add(material);
+      material.onBeforeCompile=shader=>{
+        Object.assign(shader.uniforms,uniforms);
+        shader.vertexShader='uniform float lbCompression; uniform float lbDrop;\n'+shader.vertexShader;
+        shader.vertexShader=shader.vertexShader.replace('#include <project_vertex>',`#include <project_vertex>
+          vec3 lbRest=(modelMatrix*vec4(transformed,1.0)).xyz;
+          lbRest.y-=lbDrop;
+          float lbFront=length(lbRest.yz-vec2(${radius.toFixed(5)},${front.toFixed(5)}));
+          float lbRear=length(lbRest.yz-vec2(${radius.toFixed(5)},${rear.toFixed(5)}));
+          float lbWheel=1.0-smoothstep(${(radius+.006).toFixed(5)},${(radius+.045).toFixed(5)},min(lbFront,lbRear));
+          lbWheel*=smoothstep(${(c.width*.28).toFixed(5)},${(c.width*.34).toFixed(5)},abs(lbRest.x));
+          mvPosition+=viewMatrix*vec4(0.0,lbCompression*(1.0-lbWheel),0.0,0.0);
+          gl_Position=projectionMatrix*mvPosition;`);
+      };
+      material.customProgramCacheKey=()=>`lb-suspension-${c.id}`;material.needsUpdate=true;
+    }});
+    model.userData.suspension=uniforms;
   }
   styleMaterials(model,c){
     const paints=c.id==='a1'?['bodyh']:c.id==='a3'?['paint']:c.id==='rs6'?['body']:['Body'];
@@ -159,11 +193,13 @@ export class Garage {
   }
   sprinterKit(model,c){
     const kit=new T.Group();kit.name=`LB_${c.id}_conversion`;model.add(kit);
-    const safety=c.id==='safety',black=standard('#171e18',.3,.45),metal=standard('#667266',.8,.4),yellow=emissive('#ffb518',.65);
+    const safety=c.id==='safety',black=standard('#0d1f37',.3,.45),metal=standard('#60768b',.8,.4),yellow=emissive('#ffb518',.65);
     const graphics=canvasTexture(1024,384,(ctx,w,h)=>{
-      ctx.fillStyle=safety?'#e8bc2c':'#e3e6df';ctx.fillRect(0,0,w,h);
-      ctx.fillStyle='#101b15';ctx.font='italic 900 150px Arial';ctx.fillText('LB.',55,165);ctx.font='700 43px Arial';ctx.fillText('GRUPPE',330,90);ctx.font='700 28px Arial';ctx.fillText(safety?'VERKEHRSSICHERUNG':'VERANSTALTUNGSTECHNIK',330,143);
-      ctx.fillStyle=safety?'#db3021':'#9dc83c';ctx.fillRect(40,220,944,18);ctx.font='22px Arial';ctx.fillStyle='#33432a';ctx.fillText(safety?'SICHERHEIT HAT VORFAHRT.':'WE MAKE THE SHOW HAPPEN.',55,293);
+      ctx.fillStyle=safety?'#f0cd48':'#f4f4f4';ctx.fillRect(0,0,w,h);
+      ctx.fillStyle='#135379';
+      for(const [dx,dy] of [[0,0],[0,1],[0,2],[1,1],[1,2]]){ctx.beginPath();const x=55+dx*60,y=35+dy*60;ctx.moveTo(x+30,y);ctx.lineTo(x+60,y+30);ctx.lineTo(x+30,y+60);ctx.lineTo(x,y+30);ctx.closePath();ctx.fill();}
+      ctx.font='700 50px Poppins';ctx.fillText('LB GRUPPE',240,100);ctx.font='600 24px Poppins';ctx.fillText(safety?'VERKEHRSSICHERUNG':'VERANSTALTUNGSTECHNIK',240,151);
+      ctx.fillStyle=safety?'#db3021':'#ff6148';ctx.fillRect(40,220,944,18);ctx.font='22px Arial';ctx.fillStyle='#135379';ctx.fillText(safety?'SICHERHEIT HAT VORFAHRT.':'WE MAKE THE SHOW HAPPEN.',55,293);
       if(safety){ctx.save();ctx.beginPath();ctx.rect(0,330,w,54);ctx.clip();ctx.fillStyle='#d62f22';for(let x=-100;x<w+100;x+=135){ctx.beginPath();ctx.moveTo(x,384);ctx.lineTo(x+60,330);ctx.lineTo(x+110,330);ctx.lineTo(x+50,384);ctx.fill();}ctx.restore();}
     });
     for(const side of [-1,1]){
@@ -229,8 +265,14 @@ export class Garage {
     for(const [key,value] of Object.entries(this.target))this[key]=T.MathUtils.lerp(this[key],value,factor);
     this.camera.position.set(Math.sin(this.angle)*this.distance,Math.sin(this.elevation)*this.distance+this.lookY,Math.cos(this.angle)*this.distance);
     this.camera.lookAt(0,this.lookY,0);
-    if(this.current&&this.current.position.y<0)this.current.position.y=T.MathUtils.lerp(this.current.position.y,0,factor);
+    if(this.current){
+      const bounce=suspensionAt((t-this.current.userData.dropStart)/1000,this.reduced);
+      this.current.position.y=bounce.drop;
+      const uniforms=this.current.userData.suspension;
+      uniforms.lbCompression.value=bounce.compression;uniforms.lbDrop.value=bounce.drop;
+      if(this.platformRing)this.platformRing.material.emissiveIntensity=1.3+bounce.impact*1.6;
+    }
     this.renderer.render(this.scene,this.camera);
   }
-  diagnostics(){return{vehicle:this.car?.id,loaded:this.container.dataset.loaded==='true',cached:[...this.cache.keys()],calls:this.renderer.info.render.calls,triangles:this.renderer.info.render.triangles,textures:this.renderer.info.memory.textures,camera:this.camera.position.toArray(),modelBounds:this.current?new T.Box3().setFromObject(this.current).getSize(new T.Vector3()).toArray():null};}
+  diagnostics(){return{shaderErrors:this.shaderErrors,vehicle:this.car?.id,loaded:this.container.dataset.loaded==='true',cached:[...this.cache.keys()],calls:this.renderer.info.render.calls,triangles:this.renderer.info.render.triangles,textures:this.renderer.info.memory.textures,camera:this.camera.position.toArray(),modelBounds:this.current?new T.Box3().setFromObject(this.current).getSize(new T.Vector3()).toArray():null};}
 }

@@ -3,6 +3,7 @@ import { vehicles } from './vehicles.js';
 import { Garage } from './garage.js';
 const $=selector=>document.querySelector(selector);
 const BASE=import.meta.env.BASE_URL;
+await document.fonts.load('700 16px Poppins');
 let selected=0,filter='ALLE',garage;
 const loadStatus=$('#loadStatus');
 function status(message,failed=false){loadStatus.classList.toggle('done',!message);loadStatus.classList.toggle('failed',failed);loadStatus.replaceChildren();if(message){const spin=document.createElement('span');spin.className='spinner';loadStatus.append(spin,document.createTextNode(message));}}
@@ -81,7 +82,7 @@ audio.addEventListener('loadedmetadata',()=>{$('#trackDuration').textContent=tim
 audio.addEventListener('timeupdate',()=>{$('#trackTime').textContent=time(audio.currentTime);if(Number.isFinite(audio.duration))$('#seek').value=String(audio.currentTime/audio.duration*100);});
 $('#seek').addEventListener('input',()=>{if(Number.isFinite(audio.duration))audio.currentTime=Number($('#seek').value)/100*audio.duration;});
 audio.addEventListener('error',()=>{$('#audioError').textContent='Soundtrack konnte nicht geladen werden. Bitte Verbindung prüfen.';});
-$('#modelCredits').innerHTML=`<p class="source-note">Alle Fahrzeuge sind fest eingebundene 3D-Modelle. Kein Import und kein Sketchfab-Konto erforderlich.</p><h3>Audi A1 · A3 · RS6</h3><p>3D-Modelle: <strong>Mona x Supercars</strong> (Car2022 / früher GT Cars: Hyperspeed). <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>. Für diese Garage normalisiert, reduziert und lackiert. RS6 mit eigenen Felgenschäden.</p><h3>Audi Q7</h3><p><strong>razor24</strong>, aufbereitet von <strong>Dogan Ulus</strong> / OpenX Assets. CC BY 4.0 und MPL 2.0.</p><h3>Mercedes-Benz Sprinter</h3><p><strong>Max (Max-7215)</strong>, aufbereitet von <strong>Dogan Ulus</strong> / OpenX Assets. CC BY 4.0 und MPL 2.0. Zwei eigene LB-Varianten mit Beschriftungen und Dachaufbauten.</p>`;
+$('#modelCredits').innerHTML=`<p class="source-note">Alle Fahrzeuge sind fest eingebundene 3D-Modelle. Kein Import und kein Sketchfab-Konto erforderlich.</p><h3>LB Corporate Design</h3><p>Offizielles Rautensignet und Poppins. Navy, Blau, Koralle und Signalgelb nach der <a href="https://www.lb-firmengruppe.de/" target="_blank" rel="noopener">LB Firmengruppe</a>. Markenrechte verbleiben bei der Firmengruppe; Poppins: SIL OFL.</p><h3>Audi A1 · A3 · RS6</h3><p>3D-Modelle: <strong>Mona x Supercars</strong> (Car2022 / früher GT Cars: Hyperspeed). <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>. Für diese Garage normalisiert, reduziert und lackiert. RS6 mit eigenen Felgenschäden.</p><h3>Audi Q7</h3><p><strong>razor24</strong>, aufbereitet von <strong>Dogan Ulus</strong> / OpenX Assets. CC BY 4.0 und MPL 2.0.</p><h3>Mercedes-Benz Sprinter</h3><p><strong>Max (Max-7215)</strong>, aufbereitet von <strong>Dogan Ulus</strong> / OpenX Assets. CC BY 4.0 und MPL 2.0. Zwei eigene LB-Varianten mit Beschriftungen und Dachaufbauten.</p>`;
 $('#creditsButton').addEventListener('click',()=>$('#creditsDialog').showModal());
 renderFilters();selectVehicle(0);
 // Optional, visible integration audit for repeatable QA in a real WebGL browser.

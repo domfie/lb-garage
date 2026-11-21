@@ -47,6 +47,12 @@ Die MP3 wurde vom Projektinhaber zur Einbindung bereitgestellt. Für sie wird ke
 
 ## Veröffentlichen & überprüfen
 
-GitHub Actions baut bei Pushes auf `main` mit `npm ci`, prüft alle GLB-Dateien und veröffentlicht `dist/` über GitHub Pages. Vite ist auf den Projektpfad `/lb-garage/` eingestellt. Bei einer bestehenden branchbasierten Pages-Konfiguration kann der fertig gebaute Inhalt auch über einen `gh-pages`-Branch ausgeliefert werden.
+GitHub Actions baut bei Pushes auf `main` mit `npm ci`, prüft alle GLB-Dateien und veröffentlicht `dist/` über GitHub Pages. Vite ist auf den Projektpfad `/lb-garage/` eingestellt. Zusätzlich synchronisiert `npm run build` die fertige Website nach `index.html`, `assets/` und `favicon.svg` im Repository-Stamm. Damit funktioniert die bestehende Pages-Quelle `main / (root)` ebenfalls. `.nojekyll` verhindert eine weitere Quellverarbeitung. Die bearbeitbaren Dateien liegen vollständig unter `src/`; die Stammdateien sind erzeugte Ausgaben. Nach Quelländerungen immer `npm run build` ausführen und die erzeugten Dateien mit committen. Alte JavaScript-Bundles bleiben für bereits offene Browser verfügbar.
 
 `?verify=1` startet auf der lokalen oder veröffentlichten Seite eine sichtbare Integrationsprüfung: alle sechs Fahrzeuge im echten WebGL-Browser laden, Modellabmessungen und Anbauteile prüfen sowie die komplette MP3 mit Web Audio dekodieren. Die Wiedergabe und das Layout werden zusätzlich manuell im Browser geprüft.
+
+## Corporate Design & Fahrzeugwechsel
+
+Die Oberfläche verwendet das offizielle Rautensignet, Poppins und die Navy-/Blau-/Koralle-/Signalgelb-Farben der LB Firmengruppe. Markenquellen und Schriftlizenz sind in der Lizenzdokumentation vermerkt.
+
+Beim Wechsel wird das Fahrzeug etwa 38 cm über der Plattform eingesetzt. Nach dem Bodenkontakt federt die Karosserie relativ zu den Rädern ein und schwingt gedämpft aus. Die Reifen durchdringen dabei die Plattform nicht. Die Federung ist eine visuelle Inszenierung; die Radbereiche werden im Vertexshader ausgespart. Bei aktivierter Einstellung „Bewegung reduzieren“ entfällt die Animation.
