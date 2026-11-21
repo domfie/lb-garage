@@ -76,7 +76,13 @@ export class Garage {
       box(s,x-3.38,2.7,-8.6,.08,5.3,.08,rail);box(s,x+3.38,2.7,-8.6,.08,5.3,.08,rail);
     }
     box(s,-3.8,2.6,-8.42,.055,4.6,.09,neon);box(s,3.8,2.6,-8.42,.055,4.6,.09,neon);box(s,0,4.9,-8.42,7.65,.055,.09,neon);
-    const word=new T.Mesh(new T.PlaneGeometry(5.1,1.27),new T.MeshBasicMaterial({map:textTexture('LB FIRMENGRUPPE','#86a9c3'),transparent:true,depthWrite:false}));word.position.set(0,3.8,-8.3);s.add(word);
+    // The official diamond sign replaces the long, cropped wall lettering.
+    box(s,5,3.45,-6.10,1.72,2.50,.07,standard('#f4f4f4',0,.65));
+    const wallMark=new T.Group();wallMark.name='LB_OFFICIAL_WALL_LOGO';
+    const logoPolygons=[[[0,12.1],[10.3,0],[20.6,12.1],[10.3,24.2]],[[0,36.3],[10.3,24.2],[20.6,36.3],[10.3,48.4]],[[0,60.5],[10.3,48.4],[20.6,60.5],[10.3,72.6]],[[20.6,36.3],[30.9,24.2],[41.1,36.3],[30.9,48.4]],[[20.6,60.5],[30.9,48.4],[41.1,60.5],[30.9,72.6]]];
+    for(const polygon of logoPolygons){const shape=new T.Shape();polygon.forEach(([x,y],i)=>{const px=(x/41.1-.5)*1.15,py=(.5-y/72.6)*2.03;if(i===0)shape.moveTo(px,py);else shape.lineTo(px,py);});shape.closePath();wallMark.add(new T.Mesh(new T.ShapeGeometry(shape),new T.MeshBasicMaterial({color:'#135379',side:T.DoubleSide})));}
+    wallMark.position.set(5,3.45,-6.04);s.add(wallMark);
+    for(const mount of [4.5,5.5])box(s,mount,5.15,-6.1,.035,.9,.035,rail);
     const platform=new T.Mesh(new T.CylinderGeometry(3.72,3.76,.06,80),new T.MeshStandardMaterial({color:'#162c47',metalness:.65,roughness:.4,transparent:true,opacity:.3}));platform.position.y=-.035;s.add(platform);
     this.platformRing=new T.Mesh(new T.TorusGeometry(3.74,.012,5,100),emissive('#135379',1.3));this.platformRing.rotation.x=-Math.PI/2;this.platformRing.position.y=.002;s.add(this.platformRing);
     const stripeMat=basic('#4d7898');
@@ -121,6 +127,7 @@ export class Garage {
         this.styleMaterials(model,c);
         if(c.id==='safety'||c.id==='event')this.sprinterKit(model,c);
         if(c.id==='rs6')this.curbDamage(model);
+        this.companyPlates(model,c);
         this.installSuspension(model,c);
         model.name=c.id;this.cache.set(c.id,model);model.visible=false;this.scene.add(model);
       }
@@ -137,6 +144,28 @@ export class Garage {
       if(sequence!==this.sequence)return;
       this.container.dataset.loaded='false';
       this.onStatus(`${c.short} konnte nicht geladen werden. Fahrzeug erneut auswählen.`,true);console.error('Vehicle load failed',c.id,error);
+    }
+  }
+  companyPlates(model,c){
+    model.traverse(node=>{if(!node.isMesh)return;for(const material of Array.isArray(node.material)?node.material:[node.material])if(/^License_Plate_/.test(material.name))material.visible=false;});
+    const texture=canvasTexture(1024,224,(ctx,w,h)=>{
+      ctx.fillStyle='#f5f6f1';ctx.fillRect(0,0,w,h);
+      ctx.strokeStyle='#15202a';ctx.lineWidth=10;ctx.strokeRect(6,6,w-12,h-12);
+      ctx.fillStyle='#174b9b';ctx.fillRect(13,13,94,h-26);
+      ctx.fillStyle='#f7d650';for(let i=0;i<12;i++){const a=i*Math.PI/6;ctx.beginPath();ctx.arc(60+27*Math.cos(a),63+27*Math.sin(a),3,0,Math.PI*2);ctx.fill();}
+      ctx.fillStyle='#fff';ctx.font='700 63px Arial';ctx.textAlign='center';ctx.fillText('D',60,179);
+      ctx.fillStyle='#12171b';ctx.textAlign='left';ctx.textBaseline='middle';
+      let size=138;ctx.font=`700 ${size}px Arial`;
+      while(ctx.measureText('M- LB XXXX').width>w-150){size--;ctx.font=`700 ${size}px Arial`;}
+      ctx.fillText('M- LB XXXX',130,h*.54);
+    });
+    const group=new T.Group();group.name='LB_COMPANY_PLATES';model.add(group);
+    const isVan=c.kind==='safety'||c.kind==='event';
+    const frontY=c.id==='q7'?.59:isVan?.44:c.id==='rs6'?.45:.53;
+    const rearY=isVan?.66:c.id==='q7'?.76:.65;
+    for(const [side,y,z,rotation] of [['front',frontY,c.length/2+.013,0],['rear',rearY,-c.length/2-.013,Math.PI]]){
+      const plate=new T.Mesh(new T.PlaneGeometry(.52,.114),new T.MeshStandardMaterial({map:texture,roughness:.56,metalness:.08}));
+      plate.name=`plate_${side}_M_LB_XXXX`;plate.position.set(0,y,z);plate.rotation.y=rotation;group.add(plate);
     }
   }
   installSuspension(model,c){
@@ -195,11 +224,11 @@ export class Garage {
     const kit=new T.Group();kit.name=`LB_${c.id}_conversion`;model.add(kit);
     const safety=c.id==='safety',black=standard('#0d1f37',.3,.45),metal=standard('#60768b',.8,.4),yellow=emissive('#ffb518',.65);
     const graphics=canvasTexture(1024,384,(ctx,w,h)=>{
-      ctx.fillStyle=safety?'#f0cd48':'#f4f4f4';ctx.fillRect(0,0,w,h);
-      ctx.fillStyle='#135379';
+      ctx.fillStyle='#135379';ctx.fillRect(0,0,w,h);
+      ctx.fillStyle='#f4f4f4';
       for(const [dx,dy] of [[0,0],[0,1],[0,2],[1,1],[1,2]]){ctx.beginPath();const x=55+dx*60,y=35+dy*60;ctx.moveTo(x+30,y);ctx.lineTo(x+60,y+30);ctx.lineTo(x+30,y+60);ctx.lineTo(x,y+30);ctx.closePath();ctx.fill();}
       ctx.font='700 50px Poppins';ctx.fillText('LB GRUPPE',240,100);ctx.font='600 24px Poppins';ctx.fillText(safety?'VERKEHRSSICHERUNG':'VERANSTALTUNGSTECHNIK',240,151);
-      ctx.fillStyle=safety?'#db3021':'#ff6148';ctx.fillRect(40,220,944,18);ctx.font='22px Arial';ctx.fillStyle='#135379';ctx.fillText(safety?'SICHERHEIT HAT VORFAHRT.':'WE MAKE THE SHOW HAPPEN.',55,293);
+      ctx.fillStyle=safety?'#db3021':'#ff6148';ctx.fillRect(40,220,944,18);ctx.font='22px Arial';ctx.fillStyle='#f4f4f4';ctx.fillText(safety?'SICHERHEIT HAT VORFAHRT.':'WE MAKE THE SHOW HAPPEN.',55,293);
       if(safety){ctx.save();ctx.beginPath();ctx.rect(0,330,w,54);ctx.clip();ctx.fillStyle='#d62f22';for(let x=-100;x<w+100;x+=135){ctx.beginPath();ctx.moveTo(x,384);ctx.lineTo(x+60,330);ctx.lineTo(x+110,330);ctx.lineTo(x+50,384);ctx.fill();}ctx.restore();}
     });
     for(const side of [-1,1]){

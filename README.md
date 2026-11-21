@@ -56,3 +56,5 @@ GitHub Actions baut bei Pushes auf `main` mit `npm ci`, prüft alle GLB-Dateien 
 Die Oberfläche verwendet das offizielle Rautensignet, Poppins und die Navy-/Blau-/Koralle-/Signalgelb-Farben der LB Firmengruppe. Markenquellen und Schriftlizenz sind in der Lizenzdokumentation vermerkt.
 
 Beim Wechsel wird das Fahrzeug etwa 38 cm über der Plattform eingesetzt. Nach dem Bodenkontakt federt die Karosserie relativ zu den Rädern ein und schwingt gedämpft aus. Die Reifen durchdringen dabei die Plattform nicht. Die Federung ist eine visuelle Inszenierung; die Radbereiche werden im Vertexshader ausgespart. Bei aktivierter Einstellung „Bewegung reduzieren“ entfällt die Animation.
+
+Alle Fahrzeuge sind in Firmenblau (`#135379`) lackiert und tragen vorne und hinten das gestaltete Kennzeichen „M- LB XXXX“. An der Garagenwand steht das offizielle Rautensignet auf einer hellen Logotafel.
