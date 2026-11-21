@@ -1,0 +1,21 @@
+{
+  "uid": "99aa71f747b0453eb58334414d34397c",
+  "name": "Audi RS 6 Avant (C8)",
+  "description": "Exterior Paint: Nardo Gray\nSeats: 5\nTransmission: DCT\nDriver Position: LHD\nFuel Type: Petrol\nYear: 2020\nCountry: 🇩🇪 Germany",
+  "license": {
+    "uri": "https://api.sketchfab.com/v3/licenses/322a749bcfa841b29dff1e8a1bb74b0b",
+    "label": "CC Attribution",
+    "fullName": "Creative Commons Attribution",
+    "requirements": "Author must be credited. Commercial use is allowed.",
+    "url": "http://creativecommons.org/licenses/by/4.0/",
+    "slug": "by"
+  },
+  "isDownloadable": true,
+  "author": {
+    "username": "Car2022",
+    "displayName": "Mona x Supercars",
+    "profileUrl": "https://sketchfab.com/Car2022"
+  },
+  "checkedOn": "2026-11-21",
+  "metadataSource": "https://api.sketchfab.com/v3/models/99aa71f747b0453eb58334414d34397c"
+}

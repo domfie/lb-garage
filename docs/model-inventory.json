@@ -1,0 +1,251 @@
+[
+  {
+    "id": "a1",
+    "bytes": 875012,
+    "triangles": 82878,
+    "bounds": {
+      "min": [
+        -0.9557563950780997,
+        0.00010397557761421261,
+        -1.975
+      ],
+      "max": [
+        0.9557563950780997,
+        1.4202293111871829,
+        1.975
+      ]
+    },
+    "dimensions": [
+      1.9115127901561995,
+      1.4201253356095687,
+      3.95
+    ],
+    "materials": [
+      "mirror",
+      "material",
+      "Color_A08",
+      "bodyh",
+      "black2",
+      "interior",
+      "edge_color119119119255",
+      "hcw1",
+      "head_lamp_o",
+      "head_lamp_main",
+      "head_lamp_red",
+      "head_lamp_0-3",
+      "bhead_lamp_main2",
+      "head_lamp_0-1",
+      "head_lamp_0-2",
+      "head_lamp_0",
+      "black",
+      "Color_A04",
+      "wheel1",
+      "wheel3",
+      "Color_A05",
+      "window_0",
+      "c263",
+      "Matte__FF111111_1",
+      "rear_lamp_0",
+      "Color_A03",
+      "rear_lamp_main",
+      "rear_lamp_0-1",
+      "rear_lamp_0-2",
+      "rear_lamp_o",
+      "rear_lamp_0-3",
+      "rear_lamp_01"
+    ]
+  },
+  {
+    "id": "a3",
+    "bytes": 926180,
+    "triangles": 12304,
+    "bounds": {
+      "min": [
+        -0.9793226140602407,
+        1.1794116960839318e-8,
+        -2.105
+      ],
+      "max": [
+        0.9793226140602405,
+        1.4179644341398965,
+        2.105
+      ]
+    },
+    "dimensions": [
+      1.9586452281204811,
+      1.4179644223457795,
+      4.21
+    ],
+    "materials": [
+      "Material__267",
+      "Material__268",
+      "Material__269",
+      "Material__271",
+      "Material__273",
+      "Material__274",
+      "Material__275",
+      "Material__276",
+      "Material__277",
+      "Material__279",
+      "Material__282",
+      "Material__283",
+      "Material__284",
+      "Material__285",
+      "Material__289",
+      "Material__290",
+      "Material__291",
+      "Material__293",
+      "Material__294",
+      "Material__295",
+      "Material__297",
+      "Material__298",
+      "Material__301",
+      "Material__302",
+      "Material__304",
+      "Material__335",
+      "Material__337",
+      "Material__338",
+      "Material__340",
+      "Material__341",
+      "Material__343",
+      "Material__357",
+      "Material__360",
+      "Material__362",
+      "Material__363",
+      "Material__374",
+      "Material__379",
+      "Material__391",
+      "Material__392",
+      "Material__393",
+      "Material__394",
+      "Material__440",
+      "5___Default",
+      "paint"
+    ]
+  },
+  {
+    "id": "q7",
+    "bytes": 354420,
+    "triangles": 39883,
+    "bounds": {
+      "min": [
+        -1.1217306939866696,
+        0.00007000135961410248,
+        -2.5191946276933277
+      ],
+      "max": [
+        1.121730690544896,
+        1.7473844585985927,
+        2.5191945782393286
+      ]
+    },
+    "dimensions": [
+      2.2434613845315656,
+      1.7473144572389785,
+      5.038389205932656
+    ],
+    "materials": [
+      "Body",
+      "Black_Plastic",
+      "Chrome",
+      "Body_Glass",
+      "Lamp_Amber",
+      "Mirror_Glass",
+      "Metal",
+      "Taillight_Housing",
+      "Lens_Red",
+      "License_Plate_White",
+      "License_Plate_Blue",
+      "License_Plate_Black",
+      "Lamp_Red",
+      "Lamp_White",
+      "Brake_Caliper",
+      "Tire",
+      "Metal_Dark",
+      "Headlight_Housing",
+      "Reflector_Red",
+      "Leather_Black",
+      "Interior",
+      "Interior_Panel"
+    ]
+  },
+  {
+    "id": "sprinter",
+    "bytes": 353980,
+    "triangles": 38273,
+    "bounds": {
+      "min": [
+        -1.1927184705553509,
+        0.000038901221440346134,
+        -3.03972964078989
+      ],
+      "max": [
+        1.1927183513460622,
+        2.5929208299766673,
+        3.03972964584476
+      ]
+    },
+    "dimensions": [
+      2.385436821901413,
+      2.5928819287552267,
+      6.07945928663465
+    ],
+    "materials": [
+      "Body",
+      "Grey_Plastic",
+      "Body_Glass",
+      "Light_Grey_Plastic",
+      "Mirror_Glass",
+      "Black_Plastic",
+      "Chrome_Satin",
+      "License_Plate_White",
+      "License_Plate_Blue",
+      "License_Plate_Black",
+      "Lamp_White",
+      "Lamp_Red",
+      "Lamp_Amber",
+      "Tire",
+      "Steel_Wheel",
+      "Lens_Red",
+      "Lens_Amber",
+      "Reflector",
+      "Lens_Clear",
+      "Steel"
+    ]
+  },
+  {
+    "id": "rs6",
+    "bytes": 1204640,
+    "triangles": 90500,
+    "bounds": {
+      "min": [
+        -1.0557321390423293,
+        0,
+        -2.495
+      ],
+      "max": [
+        1.0557321390423293,
+        1.4942253941825199,
+        2.495
+      ]
+    },
+    "dimensions": [
+      2.1114642780846586,
+      1.4942253941825199,
+      4.99
+    ],
+    "materials": [
+      "body",
+      "trim",
+      "trim:2s",
+      "glass",
+      "satin",
+      "interior:2s",
+      "reverselamp",
+      "brakestrip",
+      "src:lamp:audi_rs6_lamps.png",
+      "RS6_Rim",
+      "RS6_Tire"
+    ]
+  }
+]

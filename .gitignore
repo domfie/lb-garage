@@ -1,0 +1,4 @@
+node_modules/
+dist/
+.asset-work/
+.DS_Store
